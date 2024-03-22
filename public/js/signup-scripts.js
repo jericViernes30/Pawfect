@@ -21,3 +21,10 @@ function toggleRPassword(){
         password.type = "password"
     }
 }
+
+function verifyEmail(){
+    event.preventDefault();
+    var form = document.getElementById('form');
+
+    form.classList.toggle('hidden');
+}
