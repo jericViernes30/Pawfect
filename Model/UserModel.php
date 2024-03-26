@@ -28,6 +28,7 @@ class User{
         $stmt->execute();
         $result = $stmt->get_result();
 
+
         if ($result->num_rows > 0) {
             // User exists, fetch details
             $user = $result->fetch_assoc();
@@ -45,4 +46,22 @@ class User{
         $stmt->close();
         $conn->close();
     }
+
+    public function fetchUserInfo($name){
+        $connection = new Connection("localhost", "root", "", "pawfect");
+        $conn = $connection->connect();
+    
+        $stmt = $conn->prepare("SELECT * FROM users WHERE first_name = ?");
+        mysqli_stmt_bind_param($stmt, "s", $name);
+        $stmt->execute();
+        $result = $stmt->get_result();
+    
+        if($result->num_rows > 0) {
+            $user = $result->fetch_assoc();
+            return $user; // Return the fetched user data
+        }
+    
+        return null; // Return null if user not found
+    }
+    
 }
