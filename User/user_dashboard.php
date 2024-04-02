@@ -1,9 +1,8 @@
 <?php
-
     require_once "../Model/UserModel.php";
     require_once "../Model/DogModel.php";
 
-    $name = "Jeric James";
+    $name = $_SESSION['owners_name'];
     $owner = "Jeric James Viernes";
     $petModel = new Dog();
     $pet = $petModel->fetchPets($owner);
@@ -18,6 +17,7 @@
         $email = $userInfo['email'];
     }
     
+    $currentDate = date('l, F d, Y');
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -31,6 +31,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
     <script src="https://kit.fontawesome.com/5bf9be4e76.js" crossorigin="anonymous"></script>
     <title>Dashboard</title>
+    <script src="../public/js/clock.js"></script>
 </head>
 <body class="bg-main-color text-sm">
     <div class="w-full flex h-screen">
@@ -55,10 +56,10 @@
                     </div>
                     <!-- Navigations -->
                     <div class="w-full flex flex-col">
-                        <button onclick="window.location.href='#'" class="w-full text-left px-4 py-2 hover:border-b-2 hover:border-slate-500">
+                        <button onclick="window.location.href='#'" class="w-full text-left px-4 py-2 border-b-2 border-slate-500">
                             Dashboard
                         </button>
-                        <button onclick="window.location.href='#'" class="w-full text-left px-4 py-2 hover:border-b-2 hover:border-slate-500">
+                        <button onclick="window.location.href='pet_owners.php'" class="w-full text-left px-4 py-2 hover:border-b-2 hover:border-slate-500">
                             Pet Owners
                         </button>
                         <button onclick="window.location.href='#'" class="w-full text-left px-4 py-2 hover:border-b-2 hover:border-slate-500">
@@ -71,7 +72,10 @@
                     <!-- name -->
                     <div class="w-full mb-10">
                         <p class="text-lg font-medium">Hello, <?php echo $user_fname; ?>!</p>
-                        <p>Today is Monday, 25 March 2024</p>
+                        <div class="flex gap-2">
+                            <p>Today is <?php echo $currentDate ?></p>
+                            <p id="clock"></p>
+                        </div>
                     </div>
                     <!-- most followed pet -->
                     <div class="mb-16">

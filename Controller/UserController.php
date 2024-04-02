@@ -110,7 +110,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
         $email = $_POST['email'];
         $password = $_POST['password'];
 
-        $user = new UserController($email, $password);
+        $user = new UserController();
         $verifiedEmail = $user->verifyEmail($email);
 
         $userModel = new User();

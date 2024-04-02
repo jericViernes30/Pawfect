@@ -1,4 +1,5 @@
 <?php
+session_start();
 require_once '../DatabaseConnection/Connection.php';
 
 class User{
@@ -35,6 +36,7 @@ class User{
             // Verify password
             if ($user['password'] == $password) {
                 header("Location: ../User/user_dashboard.php");
+                $_SESSION['owners_name'] = $user['first_name']; 
             } else {
                 echo "Invalid password.";
             }
@@ -45,6 +47,26 @@ class User{
         // Close connection
         $stmt->close();
         $conn->close();
+    }
+
+    public function fetchUsers(){
+        $connection = new Connection("localhost", "root", "", "pawfect");
+        $conn = $connection->connect();
+
+        $stmt = $conn->prepare("SELECT * FROM users");
+        $stmt->execute();
+        $result = $stmt->get_result();
+
+        if($result->num_rows > 0) {
+            $users = array(); // Initialize an array to store all pets
+    
+            while ($user = $result->fetch_assoc()) {
+                $users[] = $user; // Add each pet to the array
+            }
+            return $users;
+        }
+
+        return null; // Return null if user not found
     }
 
     public function fetchUserInfo($name){
@@ -62,6 +84,23 @@ class User{
         }
     
         return null; // Return null if user not found
+    }
+
+    public function ownersProfile($email){
+        $connection = new Connection("localhost", "root", "", "pawfect");
+        $conn = $connection->connect();
+
+        $stmt = $conn->prepare("SELECT * FROM users where email = ?");
+        mysqli_stmt_bind_param($stmt, "s", $email);
+        $stmt->execute();
+        $result = $stmt->get_result();
+
+        if($result->num_rows > 0){
+            $owner = $result->fetch_assoc();
+            return $owner;
+        }
+
+        return null;
     }
     
 }
